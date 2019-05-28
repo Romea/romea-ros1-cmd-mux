@@ -25,21 +25,10 @@
   <depend>four_wheel_steering_msgs</depend>
   <depend>ackermann_msgs</depend>
   <depend>diagnostic_updater</depend>
-
-  <!-- Tests -->
-  <build_depend>rostest</build_depend>
-  <test_depend>rospy</test_depend>
-  <test_depend>rostopic</test_depend>
+  <depend>romea_cmd_mux_msgs</depend>
 
   <export>
-      <rosindex>
-          <tags>
-              <tag>control</tag>
-              <tag>twist</tag>
-              <tag>cmd_vel</tag>
-              <tag>multiplex</tag>
-              <tag>mux</tag>
-          </tags>
-      </rosindex>
+    <nodelet plugin="${prefix}/nodelets.xml"/>
   </export>
+
 </package>

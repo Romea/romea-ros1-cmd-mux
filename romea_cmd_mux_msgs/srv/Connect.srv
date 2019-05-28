@@ -1,0 +1,5 @@
+string name
+string topic
+float64 timeout
+uint8 priority
+---

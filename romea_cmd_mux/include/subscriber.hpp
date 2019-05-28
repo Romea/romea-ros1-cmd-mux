@@ -28,9 +28,6 @@ struct Subscriber
 };
 
 
-} // namespace cmd_mux
+}
 
-
-
-
-#endif // TOPIC_HANDLE_H
+#endif
