@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 #endif
 
 #ifdef SKID_STEERING
-  nodelet.load(nodelet_name, "romea_cmd_mux/AckermannCmdMuxNodelet", remap, my_argv);
+  nodelet.load(nodelet_name, "romea_cmd_mux/SkidSteeringCmdMuxNodelet", remap, my_argv);
 #endif
 
   ros::spin();
