@@ -28,4 +28,13 @@
   </class>
 </library>
 
+<library path="lib/libromea_cmd_mux_nodelets">
+  <class name="romea_cmd_mux/OmniSteeringCmdMuxNodelet"
+         type="romea::OmniSteeringCmdMuxNodelet"
+         base_class_type="nodelet::Nodelet">
+  <description>
+  Omni steering cmd mux nodelet
+  </description>
+  </class>
+</library>
 

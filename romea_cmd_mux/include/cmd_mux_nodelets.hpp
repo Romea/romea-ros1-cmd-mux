@@ -67,6 +67,7 @@ protected :
 using FourWheelSteeringCmdMuxNodelet = CmdMuxNodelet<four_wheel_steering_msgs::FourWheelSteering>;
 using AckermanSteeringCmdMuxNodelet = CmdMuxNodelet<ackermann_msgs::AckermannDrive>;
 using SkidSteeringCmdMuxNodelet = CmdMuxNodelet<geometry_msgs::Twist>;
+using OmniSteeringCmdMuxNodelet = CmdMuxNodelet<geometry_msgs::Twist>;
 
 }
 

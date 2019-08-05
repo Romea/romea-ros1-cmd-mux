@@ -23,6 +23,10 @@ int main(int argc, char** argv)
   nodelet.load(nodelet_name, "romea_cmd_mux/SkidSteeringCmdMuxNodelet", remap, my_argv);
 #endif
 
+#ifdef OMNI_STEERING
+  nodelet.load(nodelet_name, "romea_cmd_mux/OmniSteeringCmdMuxNodelet", remap, my_argv);
+#endif
+
   ros::spin();
 }
 

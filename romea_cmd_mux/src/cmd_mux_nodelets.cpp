@@ -112,4 +112,5 @@ template class CmdMuxNodelet<geometry_msgs::Twist>;
 PLUGINLIB_EXPORT_CLASS(romea::FourWheelSteeringCmdMuxNodelet, nodelet::Nodelet);
 PLUGINLIB_EXPORT_CLASS(romea::AckermanSteeringCmdMuxNodelet, nodelet::Nodelet);
 PLUGINLIB_EXPORT_CLASS(romea::SkidSteeringCmdMuxNodelet, nodelet::Nodelet);
+PLUGINLIB_EXPORT_CLASS(romea::OmniSteeringCmdMuxNodelet, nodelet::Nodelet);
 

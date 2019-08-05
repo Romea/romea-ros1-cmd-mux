@@ -45,6 +45,10 @@ add_executable(skid_steering_cmd_mux src/cmd_mux_node.cpp)
 target_compile_definitions(skid_steering_cmd_mux PRIVATE -DSKID_STEERING)
 target_link_libraries(skid_steering_cmd_mux ${catkin_LIBRARIES})
 
+add_executable(omni_steering_cmd_mux src/cmd_mux_node.cpp)
+target_compile_definitions(omni_steering_cmd_mux PRIVATE -DOMNI_STEERING)
+target_link_libraries(omni_steering_cmd_mux ${catkin_LIBRARIES})
+
 
 #foreach(dir launch config)
 #    install(DIRECTORY ${dir}/
