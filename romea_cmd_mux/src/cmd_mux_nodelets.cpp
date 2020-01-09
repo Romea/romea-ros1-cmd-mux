@@ -39,9 +39,23 @@ template < typename T>
 bool CmdMuxNodelet<T>::connectCallback_(romea_cmd_mux_msgs::Connect::Request  &request,
                                         romea_cmd_mux_msgs::Connect::Response & /*response*/)
 {
+  std::cout << " connect resquest "<< std::endl;
+
   std::lock_guard<std::mutex> lock(mutex_);
 
-  if(subscribers_.find(request.priority)==subscribers_.end())
+  auto lambda = [&](const std::pair<unsigned char, Subscriber> & s)
+  {
+    return s.second.sub.getTopic()==request.topic;
+  };
+
+
+  auto itTopic = std::find_if(subscribers_.begin(),
+                              subscribers_.end(),
+                              lambda);
+
+  auto itPriority = subscribers_.find(request.priority);
+
+  if(itTopic==subscribers_.end() && itPriority == subscribers_.end())
   {
     auto & subscriber = subscribers_[request.priority];
     SubscriberCallbackFunction f =  boost::bind(&CmdMuxNodelet<T>::publishCallback,this,_1,request.priority);
@@ -51,23 +65,41 @@ bool CmdMuxNodelet<T>::connectCallback_(romea_cmd_mux_msgs::Connect::Request  &r
   }
   else
   {
-    return false;
+    return itTopic==itPriority;
   }
 }
 
 //-----------------------------------------------------------------------------
 template < typename T>
 bool CmdMuxNodelet<T>::disconnectCallback_(romea_cmd_mux_msgs::Disconnect::Request  &request,
-                                           romea_cmd_mux_msgs::Disconnect::Response & response)
+                                           romea_cmd_mux_msgs::Disconnect::Response & /*response*/)
 {
+  std::cout << " disconnect resquest "<< std::endl;
+
   std::lock_guard<std::mutex> lock(mutex_);
 
-  //  auto it = subscribers_.find(request.priority);
-  //  if(it=subscribers_.end())
-  //  {
-  //    subscribers_.erase(request.)
 
-  return false;
+  auto lambda = [&](const std::pair<unsigned char, Subscriber> & s)
+  {
+    return s.second.sub.getTopic()==request.topic;
+  };
+
+  auto it = std::find_if(subscribers_.begin(),
+                         subscribers_.end(),
+                         lambda);
+
+  if(it!=subscribers_.end())
+  {
+    subscribers_.erase(it);
+    std::cout << " disconnect" << request.topic << std::endl;
+    return true;
+  }
+  else
+  {
+    std::cout << " disconnect impossible" << std::endl;
+    return false;
+  }
+
 }
 
 
