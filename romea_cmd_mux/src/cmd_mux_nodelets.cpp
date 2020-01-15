@@ -39,8 +39,6 @@ template < typename T>
 bool CmdMuxNodelet<T>::connectCallback_(romea_cmd_mux_msgs::Connect::Request  &request,
                                         romea_cmd_mux_msgs::Connect::Response & /*response*/)
 {
-  std::cout << " connect resquest "<< std::endl;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
   auto lambda = [&](const std::pair<unsigned char, Subscriber> & s)
@@ -74,8 +72,6 @@ template < typename T>
 bool CmdMuxNodelet<T>::disconnectCallback_(romea_cmd_mux_msgs::Disconnect::Request  &request,
                                            romea_cmd_mux_msgs::Disconnect::Response & /*response*/)
 {
-  std::cout << " disconnect resquest "<< std::endl;
-
   std::lock_guard<std::mutex> lock(mutex_);
 
 
@@ -91,12 +87,10 @@ bool CmdMuxNodelet<T>::disconnectCallback_(romea_cmd_mux_msgs::Disconnect::Reque
   if(it!=subscribers_.end())
   {
     subscribers_.erase(it);
-    std::cout << " disconnect" << request.topic << std::endl;
     return true;
   }
   else
   {
-    std::cout << " disconnect impossible" << std::endl;
     return false;
   }
 
