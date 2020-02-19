@@ -1,0 +1,10 @@
+<library path="lib/libromea_cmd_mux_nodelet">
+  <class name="romea_cmd_mux/CmdMuxNodelet"
+         type="romea::CmdMuxNodelet"
+         base_class_type="nodelet::Nodelet">
+  <description>
+  cmd mux nodelet
+  </description>
+  </class>
+</library>
+

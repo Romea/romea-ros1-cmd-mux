@@ -10,10 +10,7 @@ set(${PROJECT_NAME}_CATKIN_DEPS
   roscpp
   roslib
   nodelet
-  std_msgs
-  geometry_msgs
-  four_wheel_steering_msgs
-  ackermann_msgs
+  topic_tools
   diagnostic_updater
   romea_cmd_mux_msgs)
 
@@ -30,24 +27,11 @@ catkin_package(CATKIN_DEPENDS ${${PROJECT_NAME}_CATKIN_DEPS})
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_library(romea_cmd_mux_nodelets src/cmd_mux_nodelets.cpp)
-target_link_libraries(romea_cmd_mux_nodelets ${catkin_LIBRARIES})
+add_library(romea_cmd_mux_nodelet src/cmd_mux_nodelet.cpp)
+target_link_libraries(romea_cmd_mux_nodelet ${catkin_LIBRARIES})
 
-add_executable(four_wheel_steering_cmd_mux src/cmd_mux_node.cpp)
-target_compile_definitions(four_wheel_steering_cmd_mux PRIVATE -DFOUR_WHEEL_STEERING)
-target_link_libraries(four_wheel_steering_cmd_mux ${catkin_LIBRARIES})
-
-add_executable(ackerman_steering_cmd_mux src/cmd_mux_node.cpp)
-target_compile_definitions(ackerman_steering_cmd_mux PRIVATE -DACKERMANN_STEERING)
-target_link_libraries(ackerman_steering_cmd_mux ${catkin_LIBRARIES})
-
-add_executable(skid_steering_cmd_mux src/cmd_mux_node.cpp)
-target_compile_definitions(skid_steering_cmd_mux PRIVATE -DSKID_STEERING)
-target_link_libraries(skid_steering_cmd_mux ${catkin_LIBRARIES})
-
-add_executable(omni_steering_cmd_mux src/cmd_mux_node.cpp)
-target_compile_definitions(omni_steering_cmd_mux PRIVATE -DOMNI_STEERING)
-target_link_libraries(omni_steering_cmd_mux ${catkin_LIBRARIES})
+add_executable(cmd_mux src/cmd_mux_node.cpp)
+target_link_libraries(cmd_mux ${catkin_LIBRARIES})
 
 
 #foreach(dir launch config)

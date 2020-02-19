@@ -5,9 +5,7 @@
 //ros
 #include <nodelet/nodelet.h>
 #include <pluginlib/class_list_macros.h>
-#include <geometry_msgs/Twist.h>
-#include <four_wheel_steering_msgs/FourWheelSteering.h>
-#include <ackermann_msgs/AckermannDrive.h>
+#include <topic_tools/shape_shifter.h>
 #include <romea_cmd_mux_msgs/Connect.h>
 #include <romea_cmd_mux_msgs/Disconnect.h>
 
@@ -23,13 +21,12 @@
 namespace romea
 {
 
-template < typename T>
 class CmdMuxNodelet : public nodelet::Nodelet
 {
 
 protected :
 
-  using SubscriberCallbackFunction = boost::function<void(const boost::shared_ptr<T const> & msg)>;
+  using SubscriberCallbackFunction = boost::function<void(const topic_tools::ShapeShifter::ConstPtr & msg)>;
   using SubscriberMap = std::map<unsigned char, Subscriber> ;
 
 public:
@@ -44,7 +41,8 @@ protected:
 
   void diagnosticCallback(ros::TimerEvent & event);
 
-  void publishCallback(const boost::shared_ptr<T const> & msg,unsigned char priotity);
+  void publishCallback(const topic_tools::ShapeShifter::ConstPtr &msg,
+                       unsigned char priotity);
 
   bool hasHighestPriority(SubscriberMap::iterator it ,const ros::Time & now);
 
@@ -61,13 +59,10 @@ protected :
   SubscriberMap subscribers_;
   ros::ServiceServer connect_service_;
   ros::ServiceServer disconnect_service_;
+  std::string publisher_topic_name_;
+  bool is_publisher_initialized_;
 
 };
-
-using FourWheelSteeringCmdMuxNodelet = CmdMuxNodelet<four_wheel_steering_msgs::FourWheelSteering>;
-using AckermanSteeringCmdMuxNodelet = CmdMuxNodelet<ackermann_msgs::AckermannDrive>;
-using SkidSteeringCmdMuxNodelet = CmdMuxNodelet<geometry_msgs::Twist>;
-using OmniSteeringCmdMuxNodelet = CmdMuxNodelet<geometry_msgs::Twist>;
 
 }
 
