@@ -33,18 +33,17 @@ public:
 
   CmdMuxNodelet();
   virtual ~CmdMuxNodelet()=default;
-  virtual void onInit()override;
-
 
 protected:
 
+  virtual void onInit()override;
 
-  void diagnosticCallback(ros::TimerEvent & event);
+  void diagnosticCallback_(ros::TimerEvent & event);
 
-  void publishCallback(const topic_tools::ShapeShifter::ConstPtr &msg,
+  void publishCallback_(const topic_tools::ShapeShifter::ConstPtr &msg,
                        unsigned char priotity);
 
-  bool hasHighestPriority(SubscriberMap::iterator it ,const ros::Time & now);
+  bool hasHighestPriority_(SubscriberMap::iterator it ,const ros::Time & now);
 
   bool connectCallback_(romea_cmd_mux_msgs::Connect::Request  &request,
                         romea_cmd_mux_msgs::Connect::Response & response);

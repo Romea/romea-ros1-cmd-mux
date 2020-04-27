@@ -25,7 +25,7 @@ void CmdMuxNodelet::onInit()
 
 
 //-----------------------------------------------------------------------------
-void CmdMuxNodelet::diagnosticCallback(ros::TimerEvent & event)
+void CmdMuxNodelet::diagnosticCallback_(ros::TimerEvent & event)
 {
 
 }
@@ -51,7 +51,7 @@ bool CmdMuxNodelet::connectCallback_(romea_cmd_mux_msgs::Connect::Request  &requ
   if(itTopic==subscribers_.end() && itPriority == subscribers_.end())
   {
     auto & subscriber = subscribers_[request.priority];
-    SubscriberCallbackFunction f =  boost::bind(&CmdMuxNodelet::publishCallback,this,_1,request.priority);
+    SubscriberCallbackFunction f =  boost::bind(&CmdMuxNodelet::publishCallback_,this,_1,request.priority);
     subscriber.timeout.fromSec(request.timeout);
     subscriber.sub = getMTNodeHandle().subscribe(request.topic,1,f);
     return true;
@@ -92,7 +92,7 @@ bool CmdMuxNodelet::disconnectCallback_(romea_cmd_mux_msgs::Disconnect::Request 
 
 
 //-----------------------------------------------------------------------------
-void CmdMuxNodelet::publishCallback(const topic_tools::ShapeShifter::ConstPtr &msg,
+void CmdMuxNodelet::publishCallback_(const topic_tools::ShapeShifter::ConstPtr &msg,
                                     unsigned char priotity)
 {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -108,14 +108,14 @@ void CmdMuxNodelet::publishCallback(const topic_tools::ShapeShifter::ConstPtr &m
 
   (*it).second.msg_stamp = now;
 
-  if(hasHighestPriority(it,now))
+  if(hasHighestPriority_(it,now))
   {
     publisher_.publish(msg);
   }
 }
 
 //-----------------------------------------------------------------------------
-bool CmdMuxNodelet::hasHighestPriority(SubscriberMap::iterator it ,const ros::Time & now)
+bool CmdMuxNodelet::hasHighestPriority_(SubscriberMap::iterator it ,const ros::Time & now)
 {
   while(++it != subscribers_.end())
   {
