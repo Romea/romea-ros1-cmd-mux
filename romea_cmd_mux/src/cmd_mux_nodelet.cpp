@@ -36,19 +36,19 @@ bool CmdMuxNodelet::connectCallback_(romea_cmd_mux_msgs::Connect::Request  &requ
 {
   std::lock_guard<std::mutex> lock(mutex_);
 
-  auto lambda = [&](const std::pair<unsigned char, Subscriber> & s)
+  auto lambda = [&request](const std::pair<unsigned char, Subscriber> & s)
   {
     return s.second.sub.getTopic()==request.topic;
   };
 
 
-  auto itTopic = std::find_if(subscribers_.begin(),
-                              subscribers_.end(),
+  auto itTopic = std::find_if(std::cbegin(subscribers_),
+                              std::cend(subscribers_),
                               lambda);
 
   auto itPriority = subscribers_.find(request.priority);
 
-  if(itTopic==subscribers_.end() && itPriority == subscribers_.end())
+  if(itTopic==std::cend(subscribers_) && itPriority == std::cend(subscribers_))
   {
     auto & subscriber = subscribers_[request.priority];
     SubscriberCallbackFunction f =  boost::bind(&CmdMuxNodelet::publishCallback_,this,_1,request.priority);
@@ -74,8 +74,8 @@ bool CmdMuxNodelet::disconnectCallback_(romea_cmd_mux_msgs::Disconnect::Request 
     return s.second.sub.getTopic()==request.topic;
   };
 
-  auto it = std::find_if(subscribers_.begin(),
-                         subscribers_.end(),
+  auto it = std::find_if(std::cbegin(subscribers_),
+                         std::cend(subscribers_),
                          lambda);
 
   if(it!=subscribers_.end())
@@ -104,10 +104,8 @@ void CmdMuxNodelet::publishCallback_(const topic_tools::ShapeShifter::ConstPtr &
   }
 
   ros::Time now = ros::Time::now();
-  SubscriberMap::iterator it = subscribers_.find(priotity);
-
+  auto it = subscribers_.find(priotity);
   (*it).second.msg_stamp = now;
-
   if(hasHighestPriority_(it,now))
   {
     publisher_.publish(msg);
